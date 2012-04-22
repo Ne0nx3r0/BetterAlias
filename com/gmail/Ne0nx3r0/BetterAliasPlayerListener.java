@@ -3,6 +3,7 @@ package com.gmail.Ne0nx3r0;
 import com.gmail.Ne0nx3r0.AliasManager.AliasManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,6 +41,9 @@ class BetterAliasPlayerListener implements Listener{
                             
                             if(text.equalsIgnoreCase("name")){
                                 text = player.getName();
+                            }else if(text.equalsIgnoreCase("oppositeGameMode")){
+                                text = (player.getGameMode() == GameMode.SURVIVAL ? "1" : "0");
+                                
                             }else if(text.length() >= 2 && text.substring(1,2).equalsIgnoreCase("p")){
                                 int iParam = -1;
                                 

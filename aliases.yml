@@ -1,7 +1,7 @@
 #'dumb' parameter, will just use what you put in
 banhammer:
     1: /ban !1
-#name parameter is replaced with the person's name
+#name parameter is replaced with the command users name
 gmon: 
     0: /gamemode !name 1
 gmoff: 
@@ -19,3 +19,6 @@ tpthenkick:
     1: 
       - /tp !1p !name
       - /kick !1p
+# special command for toggling GM mode
+gm: 
+    0: /gamemode !name !oppositeGameMode
