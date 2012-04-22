@@ -1,0 +1,16 @@
+#'dumb' parameter, will just use what you put in
+banhammer:
+    1: /ban !1
+#name parameter is replaced with the person's name
+gmon: 
+    0: /gamemode !name 1
+gmoff: 
+    0: /gamemode !name 0
+# putting a P after the parameter specifies this is a player, and BA should try to guess which player
+# useful for things like "/to e0n" instead of "/to Ne0nx3r0"
+# This will ONLY look for players that are online
+to:
+    1: /tp !name !1p
+    2: /tp !1p !2p 
+bring:
+    1: /tp !1p !name 
