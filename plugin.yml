@@ -1,5 +1,5 @@
 name: BetterAlias
 main: com.gmail.Ne0nx3r0.BetterAlias
-version: '0.2'
+version: '0.1.1'
 database: false
 description: Command alias system
