@@ -14,3 +14,8 @@ to:
     2: /tp !1p !2p 
 bring:
     1: /tp !1p !name 
+# multiple command example
+tpthenkick: 
+    1: 
+      - /tp !1p !name
+      - /kick !1p
