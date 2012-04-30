@@ -5,13 +5,16 @@ import java.util.Map;
 
 class Alias{
     //mapping number of parameters to string(s) to be executed
-    private Map<Integer,String[]> params = new HashMap<Integer,String[]>();
+    private Map<String,String[]> params = new HashMap<String,String[]>();
     
-    public Alias(Map<Integer,String[]> p){
+    public Alias(Map<String,String[]> p){
         this.params = p;
     }
     
     public String[] getCommands(int p){
-        return this.params.get(p);
+        if(this.params.containsKey(Integer.toString(p))){
+            return this.params.get(Integer.toString(p));
+        }
+        return this.params.get("*");//or null if it doesn't exist
     }
 }

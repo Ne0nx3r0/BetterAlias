@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,8 +17,6 @@ public class AliasManager{
     
     public AliasManager(BetterAlias ba){
         plugin = ba;
-        
-       // loadAliasesLocal();
         
         loadAliases();
     }
@@ -44,20 +41,27 @@ public class AliasManager{
         }
         
         for(String sAlias : aliasList){
-            Map<Integer,String[]> shareMap = new HashMap<Integer,String[]>();
+            Map<String,String[]> shareMap = new HashMap<String,String[]>();
             
             for(int i=0;i<10;i++){
                 
                 if(yml.isList(sAlias+"."+i)){
                     
-                    shareMap.put(i,yml.getStringList(sAlias+"."+i).toArray(new String[]{}));
+                    shareMap.put(Integer.toString(i),yml.getStringList(sAlias+"."+i).toArray(new String[]{}));
                     
                 }else if(yml.isString(sAlias+"."+i)){
                     
-                    shareMap.put(i,new String[]{yml.getString(sAlias+"."+i)});
+                    shareMap.put(Integer.toString(i),new String[]{yml.getString(sAlias+"."+i)});
                     
                 }
                 
+            }
+            
+            if(yml.isList(sAlias+".*")){
+                shareMap.put("*",yml.getStringList(sAlias+".*").toArray(new String[]{}));
+
+            }else if(yml.isString(sAlias+".*")){
+                shareMap.put("*",new String[]{yml.getString(sAlias+".*")});
             }
             
             aliases.put(sAlias,new Alias(shareMap)); 

@@ -4,8 +4,10 @@ banhammer:
 #name parameter is replaced with the command users name
 gmon: 
     0: /gamemode !name 1
+    1: /gamemode !1 1
 gmoff: 
     0: /gamemode !name 0
+    1: /gamemode !1 0
 # putting a P after the parameter specifies this is a player, and BA should try to guess which player
 # useful for things like "/to e0n" instead of "/to Ne0nx3r0"
 # This will ONLY look for players that are online
@@ -22,3 +24,6 @@ tpthenkick:
 # special command for toggling GM mode
 gm: 
     0: /gamemode !name !oppositeGameMode
+# hand all parameters in order
+s:
+    "*": /say I want to say "!*", there I said it!
