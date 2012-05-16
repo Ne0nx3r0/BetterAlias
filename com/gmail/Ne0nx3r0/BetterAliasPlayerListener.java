@@ -72,8 +72,10 @@ class BetterAliasPlayerListener implements Listener{
                                     iParam = Integer.parseInt(text);  
                                 } catch(Exception ex){}
                                 
-                                if(iParam > -1 && cmd.length >= iParam){
+                                if(iParam > -1 && cmd.length-1 >= iParam){
                                     text = cmd[iParam];
+                                }else{
+                                    text = "";
                                 }
                             }
                             
