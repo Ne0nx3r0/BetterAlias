@@ -54,7 +54,7 @@ class BetterAliasPlayerListener implements Listener{
                                 }catch(Exception ex){return; }
                                 
                                 if(iParam > -1 && cmd.length >= iParam){
-                                    String sPlayerName = cmd[iParam];
+                                    String sPlayerName = cmd[iParam].toLowerCase();
                                     
                                     text = "notFound";
                                     
