@@ -27,3 +27,11 @@ gm:
 # hand all parameters in order
 s:
     "*": /say I want to say "!*", there I said it!
+  
+# replaced with the item name in the player's hand
+hand: 
+  0: I have a !handItemName in my hand right now!
+  
+# replace with the item ID in the player's hand
+handid:
+  0: /give !name !handItemID
