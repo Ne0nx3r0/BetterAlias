@@ -44,7 +44,7 @@ class BetterAliasPlayerListener implements Listener{
                             }else if(text.equalsIgnoreCase("name")){
                                 text = player.getName();
                             }else if(text.equalsIgnoreCase("handItemName")){
-                                text = player.getItemOnCursor().getType().name();
+                                text = player.getItemInHand().getType().name();
                             }else if(text.equalsIgnoreCase("handItemID")){
                                 text = new Integer(player.getItemInHand().getTypeId()).toString();
                             }else if(text.equalsIgnoreCase("oppositeGameMode")){
