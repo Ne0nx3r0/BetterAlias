@@ -23,7 +23,7 @@ tpthenkick:
       - /kick !1p
 # special command for toggling GM mode
 gm: 
-    0: /gamemode !name !oppositeGameMode
+    0: /gamemode !oppositeGameMode !name
 # hand all parameters in order
 s:
     "*": /say I want to say "!*", there I said it!

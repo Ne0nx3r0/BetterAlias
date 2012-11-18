@@ -7,9 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BetterAlias extends JavaPlugin{    
     public static AliasManager aliasManager;
+    public static BetterAlias self;
     
     @Override
-    public void onEnable() {
+    public void onEnable()
+    {
+        this.self = this;
     //Create an alias manager (also loads aliases)
         aliasManager = new AliasManager(this);
         

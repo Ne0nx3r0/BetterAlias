@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -18,8 +19,9 @@ class BetterAliasPlayerListener implements Listener{
             this.aliasManager = am;
 	}
 
-	@EventHandler
-	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        @EventHandler(priority = EventPriority.LOWEST)
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e)
+        {
             
             String[] cmd = e.getMessage().substring(1).split(" ");            
             
@@ -48,7 +50,7 @@ class BetterAliasPlayerListener implements Listener{
                             }else if(text.equalsIgnoreCase("handItemID")){
                                 text = new Integer(player.getItemInHand().getTypeId()).toString();
                             }else if(text.equalsIgnoreCase("oppositeGameMode")){
-                                text = (player.getGameMode() == GameMode.SURVIVAL ? "1" : "0");
+                                text = (player.getGameMode() == GameMode.SURVIVAL ? "creative" : "survival");
                                 
                             }else if(text.length() >= 2 && text.substring(1,2).equalsIgnoreCase("p")){
                                 int iParam = -1;
@@ -93,6 +95,14 @@ class BetterAliasPlayerListener implements Listener{
                     
                     e.setCancelled(true);
                 }
+            }
+            else if(cmd[0].equalsIgnoreCase("bareload") && (e.getPlayer().isOp() || e.getPlayer().hasPermission("BetterAlias.reload")))
+            {
+                BetterAlias.aliasManager = new AliasManager(BetterAlias.self);
+                
+                e.getPlayer().sendMessage("BetterAlias reloaded!");
+                
+                e.setCancelled(true);
             }
 	}
 }
