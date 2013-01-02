@@ -24,7 +24,6 @@ public class BetterAlias extends JavaPlugin{
     //Register commands
         getCommand("bareload").setExecutor(new BetterAliasCommandExecutor(this)); 
         
-        
         log("[BetterAlias] Enabled");
     }	
     
