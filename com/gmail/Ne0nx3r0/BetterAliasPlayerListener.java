@@ -96,19 +96,5 @@ class BetterAliasPlayerListener implements Listener{
                     e.setCancelled(true);
                 }
             }
-            
-            if(cmd[0].equalsIgnoreCase("bareload"))
-            {
-                if(e.getPlayer().isOp() || e.getPlayer().hasPermission("BetterAlias.reload"))
-                {
-                    BetterAlias.aliasManager = new AliasManager(BetterAlias.self);
-
-                    e.getPlayer().sendMessage(ChatColor.GOLD+"BetterAlias reloaded!");
-                }
-                else
-                {
-                    e.getPlayer().sendMessage(ChatColor.RED+"You do not have permission to use /bareload (node: BetterAlias.reload)");
-                }
-            }
 	}
 }

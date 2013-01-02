@@ -22,7 +22,7 @@ public class BetterAlias extends JavaPlugin{
         pm.registerEvents(new BetterAliasPlayerListener(this,aliasManager), this);
         
     //Register commands
-        //getCommand("ba").setExecutor(new BetterAliasCommandExecutor(this)); 
+        getCommand("bareload").setExecutor(new BetterAliasCommandExecutor(this)); 
         
         
         log("[BetterAlias] Enabled");
