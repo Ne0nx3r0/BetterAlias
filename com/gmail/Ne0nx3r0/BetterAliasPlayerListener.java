@@ -3,6 +3,7 @@ package com.gmail.Ne0nx3r0;
 import com.gmail.Ne0nx3r0.AliasManager.AliasManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,6 @@ class BetterAliasPlayerListener implements Listener{
         @EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e)
         {
-            
             String[] cmd = e.getMessage().substring(1).split(" ");            
             
             if(aliasManager.isAliased(cmd[0])){
@@ -96,13 +96,19 @@ class BetterAliasPlayerListener implements Listener{
                     e.setCancelled(true);
                 }
             }
-            else if(cmd[0].equalsIgnoreCase("bareload") && (e.getPlayer().isOp() || e.getPlayer().hasPermission("BetterAlias.reload")))
+            
+            if(cmd[0].equalsIgnoreCase("bareload"))
             {
-                BetterAlias.aliasManager = new AliasManager(BetterAlias.self);
-                
-                e.getPlayer().sendMessage("BetterAlias reloaded!");
-                
-                e.setCancelled(true);
+                if(e.getPlayer().isOp() || e.getPlayer().hasPermission("BetterAlias.reload"))
+                {
+                    BetterAlias.aliasManager = new AliasManager(BetterAlias.self);
+
+                    e.getPlayer().sendMessage(ChatColor.GOLD+"BetterAlias reloaded!");
+                }
+                else
+                {
+                    e.getPlayer().sendMessage(ChatColor.RED+"You do not have permission to use /bareload (node: BetterAlias.reload)");
+                }
             }
 	}
 }
