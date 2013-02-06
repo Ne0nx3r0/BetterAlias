@@ -20,8 +20,5 @@ public class BetterAlias extends JavaPlugin
         BetterAliasCommandExecutor betterAliasCommandExecutor = new BetterAliasCommandExecutor(this);
         
         this.getCommand("bareload").setExecutor(betterAliasCommandExecutor);
-        
-        //Filler command to null things to since console commands are not cancellable
-        this.getCommand("badonothing").setExecutor(betterAliasCommandExecutor);
     }
 }

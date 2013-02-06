@@ -5,9 +5,7 @@ database: false
 description: Command alias system
 commands:
    bareload:
-      description: Reloads the aliases.yml file   
-   badonothing:
-      description: Filler command, since console commands are not cancellable
+      description: Reloads the aliases.yml file
 permissions:
     BetterAlias.reload:
       description: Allows reloading BetterAlias

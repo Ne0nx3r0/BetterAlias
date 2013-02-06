@@ -71,7 +71,7 @@ public class BetterAliasCommandListener implements Listener
         {
             if(plugin.aliasManager.sendAliasCommands(alias,e.getSender(),sCommand))
             {
-                e.setCommand("badonothing");
+                e.setCommand("bareload donothing");
             }
         }
     }

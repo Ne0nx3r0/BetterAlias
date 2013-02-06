@@ -17,14 +17,16 @@ public class BetterAliasCommandExecutor implements CommandExecutor
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String alias, String[] args)
-    {
-        if(cmnd.getName().equalsIgnoreCase("badonothing"))
+    {   
+        // To allow nulling server commands out
+        if(args.length == 1 && args[0].equalsIgnoreCase("donothing"))
         {
             return true;
         }
         
         if(cs.hasPermission("BetterAlias.reload") || cs.isOp())
         {
+            
             cs.sendMessage(ChatColor.GOLD+"Reloading aliases...");
             
             if(plugin.aliasManager.loadAliases())
