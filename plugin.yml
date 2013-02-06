@@ -1,11 +1,13 @@
 name: BetterAlias
-main: com.gmail.Ne0nx3r0.BetterAlias
-version: '0.5'
+main: com.ne0nx3r0.betteralias.BetterAlias
+version: '2.0'
 database: false
 description: Command alias system
 commands:
    bareload:
-      description: Reloads the aliases.yml file
+      description: Reloads the aliases.yml file   
+   badonothing:
+      description: Filler command, since console commands are not cancellable
 permissions:
     BetterAlias.reload:
       description: Allows reloading BetterAlias

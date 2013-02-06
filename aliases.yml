@@ -3,7 +3,7 @@ banhammer:
     1: /ban !1
 #name parameter is replaced with the command users name
 gmon: 
-    0: /gamemode !name 1
+    0: /gamemode !name 1 
     1: /gamemode !1 1
 gmoff: 
     0: /gamemode !name 0
@@ -21,13 +21,7 @@ tpthenkick:
     1: 
       - /tp !1p !name
       - /kick !1p
-# special command for toggling GM mode
-gm: 
-    0: /gamemode !oppositeGameMode !name
-# hand all parameters in order
-s:
-    "*": /say I want to say "!*", there I said it!
-  
+
 # replaced with the item name in the player's hand
 hand: 
   0: I have a !handItemName in my hand right now!
@@ -35,3 +29,29 @@ hand:
 # replace with the item ID in the player's hand
 handid:
   0: /give !name !handItemID
+
+# Color example
+# ----------------
+# Available colors:
+# BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, 
+# DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE, MAGIC, BOLD, 
+# STRIKETHROUGH, UNDERLINE, ITALIC, RESET
+#
+# (Also shows how to use the reply modifier to only reply to the player)
+redText:
+  0: reply Look at my &REDcolored &DARK_GREENtext!
+  
+# Console example
+# If this seems dangerous, that's because it is!
+#
+# Required permission will be betteralias.your.node
+makeop:
+  permission: your.node 
+# Quotes are required because 0 uses a colon (:)
+  0: "reply Usage: /makeop <username>"
+  1:
+    - console /say !1 has been opped!
+    - console /op !1
+    - /me has opped !1
+  2: console /say testing single line
+  3: reply testing single line
