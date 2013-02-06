@@ -11,11 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-public class BetterAliasPlayerListener implements Listener
+public class BetterAliasCommandListener implements Listener
 {
     private final BetterAlias plugin;
 
-    public BetterAliasPlayerListener(BetterAlias plugin)
+    public BetterAliasCommandListener(BetterAlias plugin)
     {
         this.plugin = plugin;
     }
@@ -31,8 +31,7 @@ public class BetterAliasPlayerListener implements Listener
             Player player = e.getPlayer();
             
             if(alias.hasPermission() 
-            && (!player.hasPermission("betteralias."+alias.getPermissionNode())
-                || player.isOp()))
+            && !player.hasPermission("betteralias."+alias.getPermissionNode()))
             {
                 player.sendMessage(ChatColor.RED+"You do not have permission to use this command.");
             }

@@ -41,6 +41,14 @@ handid:
 redText:
   0: reply Look at my &REDcolored &DARK_GREENtext!
   
+# User must have betteralias.staff permission or be the console.
+staff:
+  permission: staff
+  0:
+    - /seen Ne0nx3r0
+    - /seen someOtherStaffMember
+    - /seen someThirdStaffMember
+  
 # Console example
 # If this seems dangerous, that's because it is!
 #

@@ -1,6 +1,6 @@
 name: BetterAlias
 main: com.ne0nx3r0.betteralias.BetterAlias
-version: '2.0'
+version: '1.0'
 database: false
 description: Command alias system
 commands:
