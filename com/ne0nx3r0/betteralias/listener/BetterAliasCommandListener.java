@@ -23,24 +23,38 @@ public class BetterAliasCommandListener implements Listener
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e)
     {
-        String sCommand = e.getMessage().substring(0,e.getMessage().indexOf(" "));
+        String sCommand = null;
+        String sArgs = "";
+        
+        if(e.getMessage().contains(" "))
+        {
+            sCommand = e.getMessage().substring(1,e.getMessage().indexOf(" "));
+            sArgs = e.getMessage().substring(e.getMessage().indexOf(" ")+1);
+        }
+        else
+        {
+            sCommand = e.getMessage().substring(1);
+        }
+        
         Alias alias = plugin.aliasManager.getAlias(sCommand);
         
         if(alias != null)
         {        
             Player player = e.getPlayer();
-            
+
             if(alias.hasPermission() 
             && !player.hasPermission("betteralias."+alias.getPermissionNode()))
             {
-                player.sendMessage(ChatColor.RED+"You do not have permission to use this command.");
+                player.sendMessage(ChatColor.RED+"You do not have permission to use this alias.");
+                
+                e.setCancelled(true);
             }
             else
             {         
                 if(plugin.aliasManager.sendAliasCommands(
                         alias,
                         (CommandSender) e.getPlayer(),
-                        e.getMessage().substring(e.getMessage().indexOf(" ")+1)))
+                        sArgs));
                 {            
                     e.setCancelled(true);
                 }      

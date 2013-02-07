@@ -57,9 +57,9 @@ public class AliasManager
         {        
             Alias alias;
 
-            if(yml.isString(sAlias+".permission"))
+            if(yml.getString(sAlias+".permission") != null)
             {
-                alias = new Alias(sAlias,yml.getString("permission"));
+                alias = new Alias(sAlias,yml.getString(sAlias+".permission"));
             }
             else
             {
@@ -170,7 +170,7 @@ public class AliasManager
                 while(m.find())
                 {
                     String text = m.group(0).substring(1);
-
+                    
                     if(text.equalsIgnoreCase("name"))
                     {
                         if(player != null)
@@ -179,7 +179,11 @@ public class AliasManager
                         }
                         else
                         {
-                            cs.sendMessage(ChatColor.RED+"[BA] A parameter of this alias requires a player.");
+                            cs.sendMessage("[BetterAlias] "+ChatColor.RED+"A parameter of this alias requires a player.");
+                            
+                            cs.sendMessage("[BetterAlias] Line: "+ac.command);
+                            
+                            return true;
                         }
                     }
                     else if(text.equalsIgnoreCase("handItemName"))
@@ -190,7 +194,11 @@ public class AliasManager
                         }
                         else
                         {
-                            cs.sendMessage(ChatColor.RED+"[BA] A parameter of this alias requires a player.");
+                            cs.sendMessage("[BetterAlias] "+ChatColor.RED+"A parameter of this alias requires a player.");
+                            
+                            cs.sendMessage("[BetterAlias] Line: "+ac.command);
+                            
+                            return true;
                         }
                     }
                     else if(text.equalsIgnoreCase("handItemID"))
@@ -201,7 +209,11 @@ public class AliasManager
                         }
                         else
                         {
-                            cs.sendMessage(ChatColor.RED+"[BA] A parameter of this alias requires a player.");
+                            cs.sendMessage("[BetterAlias] "+ChatColor.RED+"A parameter of this alias requires a player.");
+                            
+                            cs.sendMessage("[BetterAlias] Line: "+ac.command);
+                            
+                            return true;
                         }
                     }
                     else if(text.length() >= 2 && text.substring(1,2).equalsIgnoreCase("p"))
@@ -266,14 +278,14 @@ public class AliasManager
                 {
                     if(player != null)
                     {
-                        plugin.getLogger().log(Level.INFO,"[BA] Running console command for "+player.getName()+": "+sNewCommand);
+                        plugin.getLogger().log(Level.INFO,"[BetterAlias] "+ChatColor.AQUA+"Running console command for "+player.getName()+": "+sNewCommand);
                     }
                     else
                     {
-                        cs.sendMessage(ChatColor.AQUA+"[BA] Running: "+sNewCommand);
+                        cs.sendMessage("[BetterAlias] "+ChatColor.AQUA+"Running: "+sNewCommand);
                     }
 
-                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), sNewCommand);
+                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), sNewCommand.substring(1));
                 }
                 else 
                 {

@@ -3,11 +3,11 @@ banhammer:
     1: /ban !1
 #name parameter is replaced with the command users name
 gmon: 
-    0: /gamemode !name 1 
-    1: /gamemode !1 1
+    0: /gamemode creative !name
+    1: /gamemode creative !1
 gmoff: 
-    0: /gamemode !name 0
-    1: /gamemode !1 0
+    0: /gamemode survival !name
+    1: /gamemode survival !1
 # putting a P after the parameter specifies this is a player, and BA should try to guess which player
 # useful for things like "/to e0n" instead of "/to Ne0nx3r0"
 # This will ONLY look for players that are online
