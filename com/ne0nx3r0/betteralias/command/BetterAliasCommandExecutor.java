@@ -1,4 +1,4 @@
-package com.ne0nx3r0.betteralias.listener.command;
+package com.ne0nx3r0.betteralias.command;
 
 import com.ne0nx3r0.betteralias.BetterAlias;
 import org.bukkit.ChatColor;
