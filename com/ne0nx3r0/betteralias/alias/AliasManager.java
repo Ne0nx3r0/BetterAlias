@@ -87,20 +87,24 @@ public class AliasManager
                     
                     for(String sArgLine : sArgLines)
                     {
-                        String sType = sArgLine.substring(0,sArgLine.indexOf(" "));
                         AliasCommandTypes type = AliasCommandTypes.PLAYER;
-
-                        if(sType.equalsIgnoreCase("console"))
+                        
+                        if(sArgLine.contains(" "))
                         {
-                            type = AliasCommandTypes.CONSOLE;
-                            
-                            sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
-                        }
-                        else if(sType.equalsIgnoreCase("reply"))
-                        { 
-                            type = AliasCommandTypes.REPLY_MESSAGE;
-                            
-                            sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                            String sType = sArgLine.substring(0,sArgLine.indexOf(" "));
+
+                            if(sType.equalsIgnoreCase("console"))
+                            {
+                                type = AliasCommandTypes.CONSOLE;
+
+                                sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                            }
+                            else if(sType.equalsIgnoreCase("reply"))
+                            { 
+                                type = AliasCommandTypes.REPLY_MESSAGE;
+
+                                sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                            }
                         }
                         
                         sArgLine = this.replaceColorCodes(sArgLine);
