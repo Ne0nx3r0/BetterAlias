@@ -72,48 +72,57 @@ public class AliasManager
                 
                 if(!sArg.equalsIgnoreCase("permission"))
                 {
-                    int iArg = Integer.parseInt(sArg);
-                    
-                    List<String> sArgLines = new ArrayList<String>();
-                    
-                    if(yml.isList(sAlias+"."+sArg))
-                    {
-                        sArgLines = yml.getStringList(sAlias+"."+sArg);
-                    }
-                    else
-                    {
-                        sArgLines.add(yml.getString(sAlias+"."+sArg));
-                    }
-                    
-                    for(String sArgLine : sArgLines)
-                    {
-                        AliasCommandTypes type = AliasCommandTypes.PLAYER;
+                        int iArg;
                         
-                        if(sArgLine.contains(" "))
+                        if(sArg.equals("*"))
                         {
-                            String sType = sArgLine.substring(0,sArgLine.indexOf(" "));
-
-                            if(sType.equalsIgnoreCase("console"))
-                            {
-                                type = AliasCommandTypes.CONSOLE;
-
-                                sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
-                            }
-                            else if(sType.equalsIgnoreCase("reply"))
-                            { 
-                                type = AliasCommandTypes.REPLY_MESSAGE;
-
-                                sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
-                            }
+                            iArg = -1;
                         }
-                        
-                        sArgLine = this.replaceColorCodes(sArgLine);
-                        
-                        commandsList.add(new AliasCommand(sArgLine,type));
+                        else
+                        {
+                            iArg = Integer.parseInt(sArg);
+                        }
+
+                        List<String> sArgLines = new ArrayList<String>();
+
+                        if(yml.isList(sAlias+"."+sArg))
+                        {
+                            sArgLines = yml.getStringList(sAlias+"."+sArg);
+                        }
+                        else
+                        {
+                            sArgLines.add(yml.getString(sAlias+"."+sArg));
+                        }
+
+                        for(String sArgLine : sArgLines)
+                        {
+                            AliasCommandTypes type = AliasCommandTypes.PLAYER;
+
+                            if(sArgLine.contains(" "))
+                            {
+                                String sType = sArgLine.substring(0,sArgLine.indexOf(" "));
+
+                                if(sType.equalsIgnoreCase("console"))
+                                {
+                                    type = AliasCommandTypes.CONSOLE;
+
+                                    sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                                }
+                                else if(sType.equalsIgnoreCase("reply"))
+                                { 
+                                    type = AliasCommandTypes.REPLY_MESSAGE;
+
+                                    sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                                }
+                            }
+
+                            sArgLine = this.replaceColorCodes(sArgLine);
+
+                            commandsList.add(new AliasCommand(sArgLine,type));
+                        }
+
+                        alias.setCommandsFor(iArg,commandsList);
                     }
-                    
-                    alias.setCommandsFor(iArg,commandsList);
-                }
             }
             
             this.aliases.put(sAlias, alias);
@@ -219,6 +228,10 @@ public class AliasManager
                             
                             return true;
                         }
+                    }
+                    else if(text.equalsIgnoreCase("*"))
+                    {
+                        text = commandString;
                     }
                     else if(text.length() >= 2 && text.substring(1,2).equalsIgnoreCase("p"))
                     {                        

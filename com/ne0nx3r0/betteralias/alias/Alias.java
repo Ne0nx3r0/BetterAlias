@@ -27,7 +27,7 @@ public class Alias
 
     public boolean hasCommandFor(int length)
     {
-        return this.parameters.containsKey(length);
+        return this.parameters.containsKey(length) || this.parameters.containsKey(-1);
     }
 
     public String getPermissionNode()
@@ -42,7 +42,14 @@ public class Alias
 
     Iterable<AliasCommand> getCommands(int length)
     {
-        return this.parameters.get(length);
+        List<AliasCommand> commands = this.parameters.get(length);
+        
+        if(commands != null)
+        {
+            return commands;
+        }
+
+        return this.parameters.get(-1);
     }
 
     void setCommandsFor(int length,List<AliasCommand> commandsList)
