@@ -30,6 +30,14 @@ hand:
 handid:
   0: /give !name !handItemID
 
+# Send everything with a command
+sendAll:
+  "*": /say !*
+  
+# Send everything with a command, but only on certain parameter lengths
+sendAll:
+  3: /say !*
+
 # Color example
 # ----------------
 # Available colors:
