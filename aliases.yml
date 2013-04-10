@@ -80,22 +80,7 @@ makeop:
 wait:
 # Quotes are required because 0 uses a colon (:)
   0:
+    - wait 100 console /me thinks this message will come last!
     - wait 80 /me thinks this message will come third
-    - wait 40 /me thinks this message will come second
-    - /me thinks this message will come first  
-    
-# wait then reply example
-waitreply:
-# Quotes are required because 0 uses a colon (:)
-  0:
-    - wait 80 reply this came third!
     - wait 40 reply this came second!
-    - reply this came first! 
-    
-# Wait then console example
-waitconsole:
-# Quotes are required because 0 uses a colon (:)
-  0:
-    - wait 40 console /say this message was delayed!
-    - wait 80 console /say this message was delayed longer!
     - console /say this message came first!
