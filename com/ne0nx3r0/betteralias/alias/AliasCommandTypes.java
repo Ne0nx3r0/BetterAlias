@@ -4,7 +4,10 @@ public enum AliasCommandTypes
 {
     PLAYER,
     CONSOLE,
-    REPLY_MESSAGE;
+    REPLY_MESSAGE,
+    WAIT,
+    WAIT_THEN_CONSOLE,
+    WAIT_THEN_REPLY;
 
     public int id;
 }

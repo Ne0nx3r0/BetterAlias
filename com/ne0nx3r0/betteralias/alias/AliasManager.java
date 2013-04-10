@@ -13,19 +13,22 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+    
+// Helper methods
 public class AliasManager
 {
-    private final BetterAlias plugin;
+    private static BetterAlias plugin;
     private HashMap<String, Alias> aliases;
 
     public AliasManager(BetterAlias plugin)
     {
-        this.plugin = plugin;
+        AliasManager.plugin = plugin;
         
         this.loadAliases();
     }
@@ -97,7 +100,9 @@ public class AliasManager
                         for(String sArgLine : sArgLines)
                         {
                             AliasCommandTypes type = AliasCommandTypes.PLAYER;
-
+                            
+                            int waitTime = 0;
+                            
                             if(sArgLine.contains(" "))
                             {
                                 String sType = sArgLine.substring(0,sArgLine.indexOf(" "));
@@ -114,11 +119,46 @@ public class AliasManager
 
                                     sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
                                 }
+                                else if(sType.equalsIgnoreCase("wait"))
+                                { 
+                                    String[] sArgLineParams = sArgLine.split(" ");
+
+                                    try
+                                    {
+                                        waitTime = Integer.parseInt(sArgLineParams[1]);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        plugin.getLogger().log(Level.WARNING, "Invalid wait time for command {0} in alias {1}, skipping line", 
+                                                new Object[]{sArgLine, sAlias});
+                                        
+                                        continue;
+                                    }
+                                    
+                                    if(sArgLineParams[2].equalsIgnoreCase("reply"))
+                                    {
+                                        type = AliasCommandTypes.WAIT_THEN_REPLY;
+                                        
+                                        sArgLine = sArgLine.replace(sArgLineParams[0]+" "+sArgLineParams[1]+" "+sArgLineParams[2]+" ", "");
+                                    }
+                                    else if(sArgLineParams[2].equalsIgnoreCase("console"))
+                                    {
+                                        type = AliasCommandTypes.WAIT_THEN_CONSOLE;
+                                        
+                                        sArgLine = sArgLine.replace(sArgLineParams[0]+" "+sArgLineParams[1]+" "+sArgLineParams[2]+" ", "");
+                                    }
+                                    else
+                                    {
+                                        type = AliasCommandTypes.WAIT;
+                                        
+                                        sArgLine = sArgLine.replace(sArgLineParams[0]+" "+sArgLineParams[1]+" ", "");
+                                    }
+                                }
                             }
 
                             sArgLine = this.replaceColorCodes(sArgLine);
 
-                            commandsList.add(new AliasCommand(sArgLine,type));
+                            commandsList.add(new AliasCommand(sArgLine,type,waitTime));
                         }
 
                         alias.setCommandsFor(iArg,commandsList);
@@ -229,6 +269,21 @@ public class AliasManager
                             return true;
                         }
                     }
+                    else if(text.equalsIgnoreCase("oppositeGameMode"))
+                    {
+                        if(player != null)
+                        {
+                            text = player.getGameMode().equals(GameMode.SURVIVAL)?"creative":"survival";
+                        }
+                        else
+                        {
+                            cs.sendMessage("[BetterAlias] "+ChatColor.RED+"A parameter of this alias requires a player.");
+                            
+                            cs.sendMessage("[BetterAlias] Line: "+ac.command);
+                            
+                            return true;
+                        }
+                    }
                     else if(text.equalsIgnoreCase("*"))
                     {
                         text = commandString;
@@ -286,16 +341,59 @@ public class AliasManager
                 m.appendTail(sb);
                         
                 String sNewCommand = sb.toString();
+                
                 if(ac.type.equals(AliasCommandTypes.REPLY_MESSAGE))
                 {
                     cs.sendMessage(sNewCommand);
+                }
+                else if(ac.type.equals(AliasCommandTypes.WAIT_THEN_REPLY))
+                {
+                    final CommandSender csWait = cs;
+                    final String message = sNewCommand;
+                    
+                    plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            csWait.sendMessage(message);
+                        }
+                        
+                    }, ac.waitTime);
+                }
+                else if(ac.type.equals(AliasCommandTypes.WAIT_THEN_CONSOLE))
+                {
+                    if(player != null)
+                    {                        
+                        plugin.getServer().getScheduler().runTaskLater(plugin,new waitConsoleCommand(sNewCommand.substring(1),
+                                "[BetterAlias] "+ChatColor.AQUA+"Running console command for "+player.getName()+": "+sNewCommand), ac.waitTime);
+                    }
+                    else
+                    {
+                        plugin.getServer().getScheduler().runTaskLater(plugin, new waitConsoleCommand(sNewCommand.substring(1),
+                                "[BetterAlias] "+ChatColor.AQUA+"Running: "+sNewCommand), ac.waitTime);
+                    }
+                }
+                else if(ac.type.equals(AliasCommandTypes.WAIT))
+                {
+                    if(player != null)
+                    {                        
+                        plugin.getServer().getScheduler().runTaskLater(plugin, new waitPlayerCommand(sNewCommand,player.getName()), ac.waitTime);
+                    }
+                    else
+                    {
+                        plugin.getServer().getScheduler().runTaskLater(plugin, new waitConsoleCommand(sNewCommand.substring(1),
+                                "[BetterAlias] "+ChatColor.AQUA+"Running: "+sNewCommand), ac.waitTime);
+                    }
                 }
                 else if(ac.type.equals(AliasCommandTypes.CONSOLE)
                 || player == null)
                 {
                     if(player != null)
                     {
-                        plugin.getLogger().log(Level.INFO,"[BetterAlias] "+ChatColor.AQUA+"Running console command for "+player.getName()+": "+sNewCommand);
+                        plugin.getLogger().log(Level.INFO, 
+                                "[BetterAlias] {0}Running console command for {1}: {2}",
+                                new Object[]{ChatColor.AQUA, player.getName(), sNewCommand});
                     }
                     else
                     {
@@ -315,8 +413,49 @@ public class AliasManager
         
         return false;
     }
+
+// Delayed tasks
+    private static class waitConsoleCommand implements Runnable
+    {
+        private final String message;
+        private final String command;
+        
+        public waitConsoleCommand(String command,String message)
+        {
+            this.message = message;
+            this.command = command;
+        }
+
+        @Override
+        public void run()
+        {
+            plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+        }
+    }
+
+    private static class waitPlayerCommand implements Runnable
+    {
+        private final String playerName;
+        private final String command;
+        
+        public waitPlayerCommand(String command,String playerName)
+        {
+            this.playerName = playerName;
+            this.command = command;
+        }
+
+        @Override
+        public void run()
+        {
+            Player p = plugin.getServer().getPlayer(playerName);
+            
+            if(p != null)
+            {
+                p.chat(command);
+            }
+        }
+    }
     
-// Helper method
     public void copy(InputStream in, File file)
     {
         try
