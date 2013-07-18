@@ -20,7 +20,7 @@ public class BetterAliasCommandListener implements Listener
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e)
     {
         String sCommand = null;
@@ -62,7 +62,7 @@ public class BetterAliasCommandListener implements Listener
         }
     }
     
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onConsoleCommand(ServerCommandEvent e)
     {
         Alias alias;

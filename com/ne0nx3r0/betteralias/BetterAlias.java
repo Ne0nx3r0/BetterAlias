@@ -16,7 +16,6 @@ public class BetterAlias extends JavaPlugin
         
         this.getServer().getPluginManager().registerEvents(new BetterAliasCommandListener(this), this);
         
-        
         BetterAliasCommandExecutor betterAliasCommandExecutor = new BetterAliasCommandExecutor(this);
         
         this.getCommand("bareload").setExecutor(betterAliasCommandExecutor);
