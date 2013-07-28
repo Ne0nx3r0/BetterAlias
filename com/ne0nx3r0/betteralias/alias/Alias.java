@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Alias
 {
-    private final String command;
+    public final String command;
     private final String permission;
     private final HashMap<Integer, List<AliasCommand>> parameters;
      

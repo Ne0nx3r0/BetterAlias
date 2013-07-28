@@ -171,11 +171,6 @@ public class AliasManager
         return true;
     }
 
-    public Alias getAlias(String sCommand)
-    {
-        return this.aliases.get(sCommand);
-    }
-
     public boolean sendAliasCommands(Alias alias,CommandSender cs, String commandString)
     {
         Player player = null;
@@ -412,6 +407,19 @@ public class AliasManager
         }
         
         return false;
+    }
+
+    public Alias getAliasMatch(String sCommand)
+    {
+        for(String sAlias : this.aliases.keySet())
+        {
+            if(sCommand.startsWith(sAlias))
+            {
+                return this.aliases.get(sAlias);
+            }
+        }
+        
+        return null;
     }
 
 // Delayed tasks

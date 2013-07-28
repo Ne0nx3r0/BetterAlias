@@ -23,38 +23,28 @@ public class BetterAliasCommandListener implements Listener
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e)
     {
-        String sCommand = null;
-        String sArgs = "";
+        String sCommand = e.getMessage().substring(1);
+
+        Alias alias = plugin.aliasManager.getAliasMatch(sCommand);
         
-        if(e.getMessage().contains(" "))
-        {
-            sCommand = e.getMessage().substring(1,e.getMessage().indexOf(" "));
-            sArgs = e.getMessage().substring(e.getMessage().indexOf(" ")+1);
-        }
-        else
-        {
-            sCommand = e.getMessage().substring(1);
-        }
-        
-        Alias alias = plugin.aliasManager.getAlias(sCommand);
+        String sArgs = sCommand.substring(alias.command.length());
         
         if(alias != null)
         {        
             Player player = e.getPlayer();
-
+            String sNode = "betteralias."+alias.getPermissionNode();
+            
             if(alias.hasPermission() 
-            && !player.hasPermission("betteralias."+alias.getPermissionNode()))
+            && !player.hasPermission(sNode))
             {
                 player.sendMessage(ChatColor.RED+"You do not have permission to use this alias.");
+                player.sendMessage(ChatColor.GRAY+"Node: "+sNode);
                 
                 e.setCancelled(true);
             }
             else
             {         
-                if(plugin.aliasManager.sendAliasCommands(
-                        alias,
-                        (CommandSender) e.getPlayer(),
-                        sArgs));
+                if(plugin.aliasManager.sendAliasCommands(alias,(CommandSender) e.getPlayer(),sArgs))
                 {            
                     e.setCancelled(true);
                 }      
@@ -65,25 +55,15 @@ public class BetterAliasCommandListener implements Listener
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onConsoleCommand(ServerCommandEvent e)
     {
-        Alias alias;
-        String sCommand = null;
+        String sCommand = e.getCommand();
+
+        Alias alias = plugin.aliasManager.getAliasMatch(sCommand);
         
-        if(e.getCommand().contains(" "))
-        {
-            sCommand = e.getCommand().substring(e.getCommand().indexOf(" ")+1);
-            
-            alias = plugin.aliasManager.getAlias(e.getCommand().substring(0,e.getCommand().indexOf(" ")));
-        }
-        else
-        {            
-            alias = plugin.aliasManager.getAlias(e.getCommand());
-            
-            sCommand = "";
-        }
+        String sArgs = sCommand.substring(alias.command.length());
 
         if(alias != null)
         {
-            if(plugin.aliasManager.sendAliasCommands(alias,e.getSender(),sCommand))
+            if(plugin.aliasManager.sendAliasCommands(alias,e.getSender(),sArgs))
             {
                 e.setCommand("bareload donothing");
             }

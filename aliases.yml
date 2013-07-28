@@ -17,7 +17,8 @@ to:
 bring:
     1: /tp !1p !name 
 # multiple command example
-tpthenkick: 
+# note spaces in an alias go within quotes
+"tp then kick": 
     1: 
       - /tp !1p !name
       - /kick !1p
