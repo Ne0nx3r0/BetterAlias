@@ -65,17 +65,17 @@ staff:
 # Console example
 # If this seems dangerous, that's because it is!
 #
+makeOp:
 # Required permission will be betteralias.your.node
-makeop:
   permission: your.node 
+# Must be makeOp, not Makeup, makeop, etc.
+  caseSensitive: true 
 # Quotes are required because 0 uses a colon (:)
-  0: "reply Usage: /makeop <username>"
+  0: "reply Usage: /makeOp <username>"
   1:
     - console /say !1 has been opped!
     - console /op !1
     - /me has opped !1
-  2: console /say testing single line
-  3: reply testing single line
   
 # Wait example
 wait:

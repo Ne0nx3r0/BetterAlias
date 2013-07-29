@@ -58,22 +58,16 @@ public class AliasManager
 
         for(String sAlias : aliasList)
         {        
-            Alias alias;
-
-            if(yml.getString(sAlias+".permission") != null)
-            {
-                alias = new Alias(sAlias,yml.getString(sAlias+".permission"));
-            }
-            else
-            {
-                alias = new Alias(sAlias);
-            }
+            Alias alias = new Alias(
+                sAlias,
+                yml.getBoolean(sAlias+".caseSensitive",false),
+                yml.getString(sAlias+".permission",null));
 
             for(String sArg : yml.getConfigurationSection(sAlias).getKeys(false))
             {
                 List<AliasCommand> commandsList = new ArrayList<AliasCommand>();
                 
-                if(!sArg.equalsIgnoreCase("permission"))
+                if(!sArg.equalsIgnoreCase("permission") && !sArg.equalsIgnoreCase("caseSensitive"))
                 {
                         int iArg;
                         
@@ -411,11 +405,23 @@ public class AliasManager
 
     public Alias getAliasMatch(String sCommand)
     {
-        for(String sAlias : this.aliases.keySet())
+        String sCommandLower = sCommand.toLowerCase();
+        
+        for(Alias alias : this.aliases.values())
         {
-            if(sCommand.startsWith(sAlias))
+            if(alias.caseSensitive)
             {
-                return this.aliases.get(sAlias);
+                if(sCommand.startsWith(alias.command))
+                {
+                    return alias;
+                }
+            }
+            else// Case insensitive
+            {                
+                if(sCommandLower.startsWith(alias.command))
+                {
+                    return alias;
+                }
             }
         }
         

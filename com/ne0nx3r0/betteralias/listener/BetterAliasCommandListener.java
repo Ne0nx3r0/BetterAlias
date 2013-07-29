@@ -27,10 +27,10 @@ public class BetterAliasCommandListener implements Listener
 
         Alias alias = plugin.aliasManager.getAliasMatch(sCommand);
         
-        String sArgs = sCommand.substring(alias.command.length());
-        
         if(alias != null)
-        {        
+        {     
+            String sArgs = sCommand.substring(alias.command.length());
+        
             Player player = e.getPlayer();
             String sNode = "betteralias."+alias.getPermissionNode();
             
@@ -58,11 +58,11 @@ public class BetterAliasCommandListener implements Listener
         String sCommand = e.getCommand();
 
         Alias alias = plugin.aliasManager.getAliasMatch(sCommand);
-        
-        String sArgs = sCommand.substring(alias.command.length());
 
         if(alias != null)
         {
+            String sArgs = sCommand.substring(alias.command.length());
+        
             if(plugin.aliasManager.sendAliasCommands(alias,e.getSender(),sArgs))
             {
                 e.setCommand("bareload donothing");

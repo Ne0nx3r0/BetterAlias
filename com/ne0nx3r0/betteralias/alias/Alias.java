@@ -6,20 +6,23 @@ import java.util.List;
 public class Alias
 {
     public final String command;
+    public final boolean caseSensitive;
     private final String permission;
     private final HashMap<Integer, List<AliasCommand>> parameters;
      
-    public Alias(String commandName)
+    public Alias(String commandName,boolean caseSensitive,String permissionNode)
     {
-        this.command = commandName;
-        this.permission = null;
+        this.caseSensitive = caseSensitive;
         
-        this.parameters = new HashMap<Integer,List<AliasCommand>>();
-    }
-      
-    public Alias(String commandName,String permissionNode)
-    {
-        this.command = commandName;
+        if(this.caseSensitive)
+        {
+            this.command = commandName;
+        }
+        else
+        {
+            this.command = commandName.toLowerCase();
+        }
+        
         this.permission = permissionNode;
         
         this.parameters = new HashMap<Integer,List<AliasCommand>>();
