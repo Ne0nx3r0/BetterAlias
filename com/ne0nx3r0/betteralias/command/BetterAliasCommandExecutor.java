@@ -15,7 +15,6 @@ public class BetterAliasCommandExecutor implements CommandExecutor
         this.plugin = plugin;
     }
 
-    @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String alias, String[] args)
     {   
         // To allow nulling server commands out
