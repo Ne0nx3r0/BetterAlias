@@ -107,6 +107,12 @@ public class AliasManager
 
                                     sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
                                 }
+                                else if(sType.equalsIgnoreCase("player_as_op"))
+                                {
+                                    type = AliasCommandTypes.PLAYER_AS_OP;
+
+                                    sArgLine = sArgLine.substring(sArgLine.indexOf(" ")+1);
+                                }
                                 else if(sType.equalsIgnoreCase("reply"))
                                 { 
                                     type = AliasCommandTypes.REPLY_MESSAGE;
@@ -342,7 +348,6 @@ public class AliasManager
                     
                     plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable()
                     {
-                        @Override
                         public void run()
                         {
                             csWait.sendMessage(message);
@@ -373,6 +378,35 @@ public class AliasManager
                     {
                         plugin.getServer().getScheduler().runTaskLater(plugin, new waitConsoleCommand(sNewCommand.substring(1),
                                 "[BetterAlias] "+ChatColor.AQUA+"Running: "+sNewCommand), ac.waitTime);
+                    }
+                }
+                else if(ac.type.equals(AliasCommandTypes.PLAYER_AS_OP) && player != null)
+                {
+                    AliasManager.plugin.getLogger().log(
+                        Level.INFO,
+                        "[BetterAlias] {0}Running player_as_op command for {1}: {2}",
+                        new Object[] { ChatColor.AQUA, player.getName(), sNewCommand }
+                    );
+
+                    if(player.isOp() == false)
+                    {
+                        try
+                        {
+                            player.setOp(true);
+                            AliasManager.plugin.getServer().dispatchCommand(player, sNewCommand.substring(1));
+                        }
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                        finally
+                        {
+                            player.setOp(false);
+                        }
+                    }
+                    else
+                    {
+                        AliasManager.plugin.getServer().dispatchCommand(player, sNewCommand.substring(1));
                     }
                 }
                 else if(ac.type.equals(AliasCommandTypes.CONSOLE)
@@ -428,7 +462,7 @@ public class AliasManager
         return null;
     }
 
-// Delayed tasks
+    // Delayed tasks
     private static class waitConsoleCommand implements Runnable
     {
         private final String message;
@@ -440,7 +474,6 @@ public class AliasManager
             this.command = command;
         }
 
-        @Override
         public void run()
         {
             plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
@@ -458,7 +491,6 @@ public class AliasManager
             this.command = command;
         }
 
-        @Override
         public void run()
         {
             Player p = plugin.getServer().getPlayer(playerName);

@@ -1,13 +1,19 @@
-#'dumb' parameter, will just use what you put in
+# 'dumb' parameter, will just use what you put in
 banhammer:
     1: /ban !1
-#name parameter is replaced with the command users name
-gmon: 
+
+# name parameter is replaced with the command users name
+gmon:
     0: /gamemode creative !name
     1: /gamemode creative !1
-gmoff: 
+gmoff:
     0: /gamemode survival !name
     1: /gamemode survival !1
+
+# call command which needs permission with default player
+day:
+    0: player_as_op /time set 0
+
 # putting a P after the parameter specifies this is a player, and BA should try to guess which player
 # useful for things like "/to e0n" instead of "/to Ne0nx3r0"
 # This will ONLY look for players that are online
@@ -16,17 +22,18 @@ to:
     2: /tp !1p !2p 
 bring:
     1: /tp !1p !name 
+
 # multiple command example
 # note spaces in an alias go within quotes
-"tp then kick": 
+"tp then kick":
     1: 
       - /tp !1p !name
       - /kick !1p
 
 # replaced with the item name in the player's hand
-hand: 
+hand:
   0: I have a !handItemName in my hand right now!
-  
+
 # replace with the item ID in the player's hand
 handid:
   0: /give !name !handItemID
@@ -38,7 +45,7 @@ gm:
 # Send everything with a command
 sendAll:
   "*": /say !*
-  
+
 # Send everything with a command, but only on certain parameter lengths
 sendAll:
   3: /say !*
@@ -53,7 +60,7 @@ sendAll:
 # (Also shows how to use the reply modifier to only reply to the player)
 redText:
   0: reply Look at my &REDcolored &DARK_GREENtext!
-  
+
 # User must have betteralias.staff permission or be the console.
 staff:
   permission: staff
@@ -61,22 +68,22 @@ staff:
     - /seen Ne0nx3r0
     - /seen someOtherStaffMember
     - /seen someThirdStaffMember
-  
+
 # Console example
 # If this seems dangerous, that's because it is!
 #
 makeOp:
 # Required permission will be betteralias.your.node
-  permission: your.node 
+  permission: your.node
 # Must be makeOp, not Makeup, makeop, etc.
-  caseSensitive: true 
+  caseSensitive: true
 # Quotes are required because 0 uses a colon (:)
   0: "reply Usage: /makeOp <username>"
   1:
     - console /say !1 has been opped!
     - console /op !1
     - /me has opped !1
-  
+
 # Wait example
 wait:
 # Quotes are required because 0 uses a colon (:)
